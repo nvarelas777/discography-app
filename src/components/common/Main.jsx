@@ -3,16 +3,18 @@ import { Switch, Route } from 'react-router-dom';
 import Home from '../home/Home';
 import ResultTable from '../Artists/ResultTable'
 import Album from '../Album/Album'
-import { Container } from 'reactstrap'
+import { Container, Row } from 'reactstrap'
 import SearchBar from './SearchBar'
+import Logo from './Logo'
 import styled from 'styled-components'
 
 const Main = () => (
     <ContainerStyled>   
         <hr />
         <hr />
-        <Route component={SearchBar} /> 
-        <hr />
+        <Logo />
+        <SearchBar /> 
+        <HrStyled />
         <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/search/:search' component={ResultTable} />
@@ -26,4 +28,9 @@ export default Main
 const ContainerStyled = styled(Container)`
 background-color: lightblue;
 padding-top: 15px;
+padding-bottom: 20px;
+`
+
+const HrStyled = styled.hr`
+ border: 1px solid black;
 `

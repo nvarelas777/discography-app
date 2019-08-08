@@ -2,7 +2,9 @@ import React , { Component } from 'react';
 import axios from 'axios'
 import ArtistContainer from './AlbumContainer'
 import ArtistHeader from './Header'
+import TopSongs from './TopSongs'
 import { Row, Col, Container,Spinner } from 'reactstrap'
+import styled from 'styled-components'
 
 export default class Artist extends Component {
 
@@ -12,14 +14,16 @@ export default class Artist extends Component {
         this.state = {
             artist: '',
             albums: [],
+            songs: [],
             isLoading: true
         }
     }
 
     async componentDidMount() {
-        const [artistData, albumData] = await Promise.all([
+        const [artistData, albumData, songData] = await Promise.all([
             axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/" + this.props.match.params.id),
-            axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/" + this.props.match.params.id + "/albums")
+            axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/" + this.props.match.params.id + "/albums"),
+            axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/artist/" + this.props.match.params.id + "/top")
         ]);
 
         let albumArray = [];
@@ -31,9 +35,15 @@ export default class Artist extends Component {
             }
         })
 
+        let songArray = [];
+        songData.data.data.map((currSong, i) => {
+            songArray.push(currSong.title)
+        })
+
         this.setState({
             artist: artistData.data,
             albums: albumArray,
+            songs: songArray,
             isLoading: false
         })
     }
@@ -60,9 +70,16 @@ export default class Artist extends Component {
             )
         }
         return (
-            <Container>                
-                    <ArtistHeader artist={this.state.artist} />
-                    <hr />              
+            <Container>
+                <Row>
+                    <Col sm={8}>              
+                        <ArtistHeader artist={this.state.artist} />
+                    </Col> 
+                    <Col sm={4}>
+                        <TopSongs songs={this.state.songs} />
+                    </Col> 
+                    </Row>
+                    <HrStyled />              
                 <Row>
                     {this.displayAlbums()}
                 </Row>
@@ -70,3 +87,7 @@ export default class Artist extends Component {
         )
     }
 }
+
+const HrStyled = styled.hr`
+ border: 1px solid black;
+`

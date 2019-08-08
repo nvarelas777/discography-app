@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
+import { Container } from 'reactstrap'
 
 export default class Footer extends Component{
 
     render() {
         return (
-            <div>
+            <ContainerStyled>
                 <h1>footer</h1>
-            </div>
+            </ContainerStyled>
         )
     }
 }
+
+const ContainerStyled = styled(Container)`
+background-color: black;
+color:white;
+height: 100px;
+`

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
-import { Container,Form, FormGroup, Input, Button, Row, Col } from 'reactstrap';
+import { Container,Form, FormGroup, Input, Button,Label, Row, Col, InputGroup } from 'reactstrap';
 
 export default class SearchBar extends Component {
     
@@ -21,22 +21,30 @@ export default class SearchBar extends Component {
     }
 
     render() {
-        return (
-            <Form>
-                    <FormGroup>
-                        <Row>
-                            <Col sm={{offset: 3, span:53}}>
-                                <Input type="Search" placeholder="Search" onChange={(e) => this.handleInput(e)}></Input>
+        return (  
+            <Container>
+                <Row>
+                    <Col sm={2}></Col>
+                    <Col sm={8}>
+                        <Form inline>
+                            <Col lg={11} sm={10}>
+                                <InputStyled type="text" placeholder="Search" onChange={(e) => this.handleInput(e)}></InputStyled>
                             </Col>
-                            <Col sm={1}>
+                            <Col lg={1} sm={2}>
                                 <Link to={`/search/${this.state.search}`}>
-                                    <Button>Search</Button>
+                                    <Button color="info">Search</Button>
                                 </Link>
                             </Col>
-                        </Row>
-                    </FormGroup>
-            </Form>
-            
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>  
         )
     }
 }
+
+const InputStyled = styled.input`
+border-radius:6px;
+padding: 3px;
+width: 100%;
+`

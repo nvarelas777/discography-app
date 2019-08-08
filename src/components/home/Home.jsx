@@ -57,11 +57,18 @@ export default class Home extends Component {
             return (
                 <div>
                     <h1>Trending Artists</h1>
+                    <ContainerStyled>
                     <Row>
                         {this.displayAlbums()}
                     </Row>
+                    </ContainerStyled>
                 </div>
             )
         }
     }
 }
+
+const ContainerStyled = styled(Container)`
+border: 2px solid black;
+border-radius: 6px;
+`
