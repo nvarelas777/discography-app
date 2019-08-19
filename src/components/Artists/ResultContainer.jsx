@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
-import { Container, Col, Row } from 'reactstrap'
+import { Container } from 'reactstrap'
 import styled from 'styled-components'
 
 const ResultContainer = props => (
     <ContainerStyled>
         <Link to={`/artist/${props.album.id}`} >
             <HStyled>{props.album.name}</HStyled>            
-            <img className="rounded" object src={props.album.picture_medium} />           
+            <ImgStyled className="rounded" src={props.album.picture_medium} />           
         </Link>
     </ContainerStyled>
 )
@@ -20,6 +20,15 @@ const ContainerStyled = styled(Container)`
     margin-bottom: 10px;
     &:hover{
         transform: scale(1.1)
+    }
+`
+const ImgStyled = styled.img`
+    width:100%;
+    height: auto;
+
+    @media (max-width: 576px){
+        width:80%;
+        height:auto;
     }
 `
 

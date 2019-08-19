@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
-import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios'
-import ArtistContainer from '../Album/AlbumContainer';
-import { Col, Row, Container, Form, Spinner } from 'reactstrap'
+import { Col, Row, Container, Spinner } from 'reactstrap'
 import ResultContainer from '../Artists/ResultContainer';
 import styled from 'styled-components';
-import SearchBar from '../common/SearchBar'
 
 export default class Home extends Component {
     constructor(props){
@@ -21,7 +18,7 @@ export default class Home extends Component {
         axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/chart/0/artists")
             .then(res => {
                 let albumArray = []
-                res.data.data.map((currAlbum,i) => {
+                res.data.data.forEach((currAlbum) => {
                     albumArray.push(currAlbum)
                 })
                 this.setState({
@@ -35,12 +32,12 @@ export default class Home extends Component {
     }
 
     displayAlbums = () => {
-        return this.state.albums.map((currAlbum,i) => {
-            return (
-                <Col sm={4} key={i}>
-                    <ResultContainer album={currAlbum} />
-                </Col>
-            )
+        return this.state.albums.slice(0,9).map((currAlbum, i) => {  
+                return (
+                    <Col md={4} sm ={6} key={i}>
+                        <ResultContainer album={currAlbum} />
+                    </Col>
+                )        
         })
     }
 

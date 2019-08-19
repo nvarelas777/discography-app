@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Media, Container } from 'reactstrap'
+import { Container } from 'reactstrap'
+import { Link } from 'react-router-dom';
 import discologo from '../../resources/discologo.png';
 
+
+
 const Logo = () => (
-    <ContainerStyled>
-        <Media>
-            <ImgStyled object src={discologo}/>
-        </Media>
+    <ContainerStyled >
+        <Link to='/'>      
+            <ImgStyled object src={discologo}/>      
+        </Link>
     </ContainerStyled>
 )
 

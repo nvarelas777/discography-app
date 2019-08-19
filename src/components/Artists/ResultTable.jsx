@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Col, Row, Media } from 'reactstrap'
+import { Col, Row, Spinner } from 'reactstrap'
 import ResultContainer from './ResultContainer.jsx';
 import styled from 'styled-components'
 
@@ -11,7 +11,8 @@ export default class ResultTable extends Component {
         this.state = {
             artist_data: '',
             albums: [],  
-            album_pictures: []         
+            album_pictures: [],
+            isLoading: true       
         }
 
     }
@@ -20,19 +21,43 @@ export default class ResultTable extends Component {
         axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/artist?q=" + this.props.match.params.search)
             .then(res => {
                 let albumArray = [];
-                res.data.data.map((currAlbum, i) => {
+                res.data.data.forEach((currAlbum) => {
                     if(currAlbum.nb_album > 0){
                         albumArray.push(currAlbum);                  
                     }
                 })
                 this.setState({
-                    albums: albumArray
+                    albums: albumArray,
+                    isLoading: false
                 })
             })
             .catch(err =>{
                 console.log(err)
             })
+    }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.match.params.search !== this.props.match.params.search){
+            this.setState({
+                isLoading: true
+            })
+            axios.get("https://cors-anywhere.herokuapp.com/https://api.deezer.com/search/artist?q=" + this.props.match.params.search)
+            .then(res => {
+                let albumArray = [];
+                res.data.data.forEach((currAlbum, i) => {
+                    if(currAlbum.nb_album > 0){
+                        albumArray.push(currAlbum);                  
+                    }
+                })
+                this.setState({
+                    albums: albumArray,
+                    isLoading: false
+                })
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        }
     }
 
     displayPictures = () => {
@@ -46,6 +71,23 @@ export default class ResultTable extends Component {
     }
 
     render(){
+        if(this.state.isLoading === true){
+            return (
+                <div>
+                    <HeaderStyled>Results for {this.props.match.params.search} ...</HeaderStyled>
+                    <Spinner color="primary" />
+                </div>
+            )
+        }
+        if(this.state.albums.length === 0){
+            return (
+                <div>
+                    <HeaderStyled>Results for {this.props.match.params.search} ...</HeaderStyled>
+                    <br />
+                    <h3>No results found</h3>
+                </div>
+            )
+        }
         return(
             <div>
                 <HeaderStyled>Results for {this.props.match.params.search} ...</HeaderStyled>

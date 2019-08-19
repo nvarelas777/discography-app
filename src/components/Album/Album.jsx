@@ -14,7 +14,7 @@ export default class Artist extends Component {
         this.state = {
             artist: '',
             albums: [],
-            songs: [],
+            songs: '',
             isLoading: true
         }
     }
@@ -28,22 +28,17 @@ export default class Artist extends Component {
 
         let albumArray = [];
         let checkDuplicates = new Set();
-        albumData.data.data.map((currAlbum, i) => {
+        albumData.data.data.forEach((currAlbum, i) => {
             if(!checkDuplicates.has(currAlbum.title)){
                 checkDuplicates.add(currAlbum.title);
                 albumArray.push(currAlbum)
             }
         })
 
-        let songArray = [];
-        songData.data.data.map((currSong, i) => {
-            songArray.push(currSong.title)
-        })
-
         this.setState({
             artist: artistData.data,
             albums: albumArray,
-            songs: songArray,
+            songs: songData.data,
             isLoading: false
         })
     }
@@ -51,7 +46,7 @@ export default class Artist extends Component {
     displayAlbums = () => {
         return this.state.albums.map((currAlbum, i) => {
             return (
-                <Col sm={4} key={i}>
+                <Col md={4} sm={6} key={i}>
                     <ArtistContainer album={currAlbum} />
                 </Col>
             )
@@ -72,14 +67,14 @@ export default class Artist extends Component {
         return (
             <Container>
                 <Row>
-                    <Col sm={8}>              
+                    <Col md={8} sm={12}>
                         <ArtistHeader artist={this.state.artist} />
-                    </Col> 
-                    <Col sm={4}>
+                    </Col>
+                    <Col md={4} sm={12}>
                         <TopSongs songs={this.state.songs} />
-                    </Col> 
-                    </Row>
-                    <HrStyled />              
+                    </Col>
+                </Row>
+                <HrStyled />
                 <Row>
                     {this.displayAlbums()}
                 </Row>
